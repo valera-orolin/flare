@@ -4,11 +4,33 @@ import InputError from '@/Components/InputError.vue';
 import Post from '@/Components/Post.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm, Head } from '@inertiajs/vue3';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import 'emoji-picker-element';
  
 defineProps(['posts']);
 
 const form = useForm({
     message: '',
+});
+
+const showEmojiPicker = ref(false);
+
+const addEmoji = (event) => {
+    form.message += event.detail.unicode;
+};
+
+let handleClickOutside;
+onMounted(() => {
+    handleClickOutside = (event) => {
+        const dropdownMenu = document.querySelector('.emoji-picker');
+        if (dropdownMenu && !dropdownMenu.contains(event.target)) {
+            showEmojiPicker.value = false;
+        }
+    };
+    document.addEventListener('click', handleClickOutside);
+});
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
 });
 </script>
  
@@ -43,15 +65,13 @@ const form = useForm({
                                     <option value="friends">Only friends</option>
                                 </select>
                             </div>
-                            <div class="relative inline-block z-10">
-                                <font-awesome-icon :icon="['fas', 'smile']" class="fas fa-smile text-gray-500 transition-all duration-200 cursor:pointer lg:hover:text-black" id="emoji-icon" />
-                                <emoji-picker id="emoji-picker"
-                                    class="absolute left-[-250px] scale-75 transform top-full mt-1 hidden shadow-2xl md:left-0 md:scale-100"></emoji-picker>
+                            <div class="relative inline-block z-10 emoji-picker">
+                                <font-awesome-icon :icon="['fas', 'smile']" class="fas fa-smile text-gray-500 transition-all duration-200 cursor:pointer lg:hover:text-black" @click="showEmojiPicker = !showEmojiPicker" />
+                                <emoji-picker v-show="showEmojiPicker" @emoji-click="addEmoji"
+                                    class="absolute left-[-250px] scale-75 transform top-full mt-1 shadow-2xl md:left-0 md:scale-100"></emoji-picker>
                             </div>
                         </div>
-                        <button
-                            class="self-end mt-2 rounded-full text-white bg-black py-2 px-4 transition-all duration-200 lg:mt-0 lg:hover:bg-gray-500"
-                            type="submit">Publish post</button>
+                        <PrimaryButton>Publish post</PrimaryButton>
                     </div>
                 </form>
             </div>
