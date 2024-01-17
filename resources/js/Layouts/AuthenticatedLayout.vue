@@ -1,13 +1,10 @@
 <script setup>
-import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import NavPanel from '@/Components/NavPanel.vue';
+import Suggestions from '@/Components/Suggestions.vue';
+import HamburgerButton from '@/Components/HamburgerButton.vue';
+import ResponsiveNavPanel from '@/Components/ResponsiveNavPanel.vue';
+import FeedsTypeButtons from '@/Components/FeedsTypeButtons.vue';
 
-const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
@@ -16,63 +13,8 @@ const showingNavigationDropdown = ref(false);
 
         <!-- Menu section -->
         <div class="grid gap-10 lg:grid-cols-4">
-            <div class="font-medium hidden lg:col-span-1 lg:block">
-                <div class="sticky top-0 pt-8">
-                    <div class="flex flex-col items-start">
-                        <a href="index.html" class="text-3xl font-bold px-5 mb-4">Flare</a>
-                        <a href="profile.html" class="nav-link">
-                            <div class="w-6">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                Profile
-                            </div>
-                        </a>
-                        <a href="index.html" class="nav-link">
-                            <div class="w-6">
-                                <i class="fas fa-newspaper"></i>
-                            </div>
-                            <div>
-                                Feeds
-                            </div>
-                        </a>
-                        <a href="messages.html" class="nav-link">
-                            <div class="w-6">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                Messages
-                            </div>
-                        </a>
-                        <a href="friends.html" class="nav-link">
-                            <div class="w-6">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div>
-                                Friends
-                            </div>
-                        </a>
-                        <a href="notifications.html" class="nav-link">
-                            <div class="w-6">
-                                <i class="fas fa-bell"></i>
-                            </div>
-                            <div>
-                                Notifications
-                            </div>
-                        </a>
-                        <a href="settings.html" class="nav-link">
-                            <div class="w-6">
-                                <i class="fas fa-sun"></i>
-                            </div>
-                            <div>
-                                Settings
-                            </div>
-                        </a>
-                        <a href="#" class="font-bold w-full mt-4 rounded-full text-white bg-black py-4 px-6 transition-all duration-200 hover:bg-gray-500">Publish
-                            post</a>
-                    </div>
-                </div>
-            </div>
+
+            <NavPanel />
 
             <!-- Feeds section -->
             <div class="lg:col-span-2">
@@ -82,82 +24,12 @@ const showingNavigationDropdown = ref(false);
                     <div class="flex items-center mb-4 lg:hidden">
                         <a href="#" class="text-3xl font-bold absolute left-1/2 transform -translate-x-1/2">Flare</a>
 
-                        <!-- Hamburger button -->
-                        <button id="menu-btn" class="block hamburger mt-2 mr-2 ml-auto focus:outline-none lg:hidden">
-                            <span class="hamburger-top"></span>
-                            <span class="hamburger-middle"></span>
-                            <span class="hamburger-bottom"></span>
-                        </button>
+                        <HamburgerButton />
                     </div>
 
-                    <!-- Responsive menu -->
-                    <div class="lg:hidden">
-                        <div id="menu" class="absolute flex-col items-center hidden self-end py-8 mt-0 font-bold bg-white left-6 right-6 drop-shadow-md sm:w-auto sm:self-center">
-                            <div class="space-y-6">
-                                <a href="profile.html" class="flex items-center space-x-2">
-                                    <div class="w-6">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div>
-                                        Profile
-                                    </div>
-                                </a>
-                                <a href="index.html" class="flex items-center space-x-2">
-                                    <div class="w-6">
-                                        <i class="fas fa-newspaper"></i>
-                                    </div>
-                                    <div>
-                                        Feeds
-                                    </div>
-                                </a>
-                                <a href="messages.html" class="flex items-center space-x-2">
-                                    <div class="w-6">
-                                        <i class="fas fa-envelope"></i>
-                                    </div>
-                                    <div>
-                                        Messages
-                                    </div>
-                                </a>
-                                <a href="friends.html" class="flex items-center space-x-2">
-                                    <div class="w-6">
-                                        <i class="fas fa-users"></i>
-                                    </div>
-                                    <div>
-                                        Friends
-                                    </div>
-                                </a>
-                                <a href="notifications.html" class="flex items-center space-x-2">
-                                    <div class="w-6">
-                                        <i class="fas fa-bell"></i>
-                                    </div>
-                                    <div>
-                                        Notifications
-                                    </div>
-                                </a>
-                                <a href="settings.html" class="flex items-center space-x-2">
-                                    <div class="w-6">
-                                        <i class="fas fa-sun"></i>
-                                    </div>
-                                    <div>
-                                        Settings
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <ResponsiveNavPanel />
 
-                    <!-- Feeds type buttons -->
-                    <div class="flex items-end justify-between">
-                        <div class="text-2xl font-bold hidden lg:block">Feeds</div>
-                        <div class="flex w-full justify-between lg:space-x-2 lg:w-auto">
-                            <a href="#"
-                                class="feeds-choice text-base text-gray-500 px-2 rounded-full transition-all duration-200 lg:hover:bg-gray-200 lg:hover:shadow">Recents</a>
-                            <a href="#"
-                                class="feeds-choice text-base text-gray-500 px-2 rounded-full transition-all duration-200 lg:hover:bg-gray-200 lg:hover:shadow">Friends</a>
-                            <a href="#"
-                                class="feeds-choice text-base text-gray-500 px-2 rounded-full transition-all duration-200 lg:hover:bg-gray-200 lg:hover:shadow">Popular</a>
-                        </div>
-                    </div>
+                    <FeedsTypeButtons />
                 </div>
 
                 <main>
@@ -166,223 +38,8 @@ const showingNavigationDropdown = ref(false);
                 
             </div>
 
-            <!-- Suggestions section -->
-            <div class="hidden lg:col-span-1 lg:block">
-                <div class="sticky top-0 pt-8">
-                    <div class="text-2xl font-bold">Suggestions</div>
-                    <div class="mt-4 space-y-2">
-                        <div class="flex items-center justify-between space-x-4">
-                            <div class="group overflow-hidden">
-                                <a href="#" class="flex items-center space-x-4">
-                                    <img class="w-12 h-12 rounded-full mb-2 object-cover object-center"
-                                        src="" alt="Avatar">
-                                    <div class="flex flex-col">
-                                        <div class="text-base font-bold whitespace-nowrap lg:group-hover:underline">Troy
-                                            Levine</div>
-                                        <div class="text-base text-gray-500">@someusersid</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <form>
-                                <button type="submit" class="bg-black text-xs transition-all duration-200 text-white font-bold py-2 px-4 rounded-full lg:hover:bg-gray-500">
-                                    Follow
-                                </button>
-                            </form>
-                        </div>
-                        <div class="flex items-center justify-between space-x-4">
-                            <div class="group overflow-hidden">
-                                <a href="#" class="flex items-center space-x-4">
-                                    <img class="w-12 h-12 rounded-full mb-2 object-cover object-center"
-                                        src="" alt="Avatar">
-                                    <div class="flex flex-col">
-                                        <div class="text-base font-bold whitespace-nowrap lg:group-hover:underline">Azaan
-                                            Peters</div>
-                                        <div class="text-base text-gray-500">@someusersid</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <form>
-                                <button type="submit" class="bg-black text-xs transition-all duration-200 text-white font-bold py-2 px-4 rounded-full lg:hover:bg-gray-500">
-                                    Follow
-                                </button>
-                            </form>
-                        </div>
-                        <div class="flex items-center justify-between space-x-4">
-                            <div class="group overflow-hidden">
-                                <a href="#" class="flex items-center space-x-4">
-                                    <img class="w-12 h-12 rounded-full mb-2 object-cover object-center"
-                                        src="" alt="Avatar">
-                                    <div class="flex flex-col">
-                                        <div class="text-base font-bold whitespace-nowrap lg:group-hover:underline">Joanna
-                                            Mccullough</div>
-                                        <div class="text-base text-gray-500">@someusersid</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <form>
-                                <button type="submit" class="bg-black text-xs transition-all duration-200 text-white font-bold py-2 px-4 rounded-full lg:hover:bg-gray-500">
-                                    Follow
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- See all button -->
-                    <form>
-                        <button type="submit" class="text-base text-gray-500 px-2 transition-all duration-200 rounded-full lg:hover:bg-gray-200 lg:hover:shadow">See All</button>
-                    </form>
-                </div>
-            </div>
+            <Suggestions />
         </div>
     </div>
 
 </template>
-
-<!---
-<template>
-    <div>
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
-                <!-- Primary Navigation Menu --
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Logo --
-                            <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
-                                    />
-                                </Link>
-                            </div>
-
-                            <!-- Navigation Links --
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </NavLink>
-                                <NavLink :href="route('posts.index')" :active="route().current('posts.index')">
-                                    Posts
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
-                            <!-- Settings Dropdown --
-                            <div class="ms-3 relative">
-                                <Dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {{ $page.props.auth.user.name }}
-
-                                                <svg
-                                                    class="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
-                                        </DropdownLink>
-                                    </template>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <!-- Hamburger --
-                        <div class="-me-2 flex items-center sm:hidden">
-                            <button
-                                @click="showingNavigationDropdown = !showingNavigationDropdown"
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        :class="{
-                                            hidden: showingNavigationDropdown,
-                                            'inline-flex': !showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        :class="{
-                                            hidden: !showingNavigationDropdown,
-                                            'inline-flex': showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Responsive Navigation Menu --
-                <div
-                    :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
-                    class="sm:hidden"
-                >
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('posts.index')" :active="route().current('posts.index')">
-                                    Posts
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <!-- Responsive Settings Options --
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">
-                                {{ $page.props.auth.user.name }}
-                            </div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
-                        </div>
-
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- Page Heading --
-            <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
-                </div>
-            </header>
-
-            <!-- Page Content --
-            <main>
-                <slot />
-            </main>
-        </div>
-    </div>
-</template>
--->
