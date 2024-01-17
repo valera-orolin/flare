@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('message');
+            $table->string('image')->nullable();
+            $table->enum('visibility', ['public', 'only_friends']);
             $table->timestamps();
         });
     }

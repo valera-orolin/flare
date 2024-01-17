@@ -13,6 +13,8 @@ class Post extends Model
 
     protected $fillable = [
         'message',
+        'image',
+        'visibility',
     ];
 
     public function user(): BelongsTo

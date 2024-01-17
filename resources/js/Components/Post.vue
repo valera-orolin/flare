@@ -19,6 +19,10 @@ const form = useForm({
 const editing = ref(false);
 const showMore = ref(false);
 
+const colors = ['rgb(255 228 230)', 'rgb(252 231 243)', 'rgb(250 232 255)', 'rgb(243 232 255)', 'rgb(237 233 254)', 'rgb(224 231 255)', 'rgb(224 242 254)', 'rgb(207 250 254)', 'rgb(204 251 241)', 'rgb(209 250 229)', 'rgb(220 252 231)', 'rgb(236 252 203)', 'rgb(254 249 195)', 'rgb(254 243 199)', 'rgb(255 237 213)', 'rgb(254 226 226)'];
+const randomIndex = Math.floor(Math.random() * colors.length);
+let color = colors[randomIndex];
+
 const toggleMore = (event) => {
     event.stopPropagation();
     showMore.value = !showMore.value;
@@ -41,7 +45,7 @@ onBeforeUnmount(() => {
 
 <template>
     <!-- Post examples -->
-    <div class="w-full bg-fuchsia-100 rounded-lg p-6 space-y-2">
+    <div class="w-full rounded-lg p-6 space-y-2" :style="{background: color}">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4 group">
                 <img class="w-12 h-12 rounded-full object-cover object-center" src=""
@@ -89,7 +93,10 @@ onBeforeUnmount(() => {
                 <button class="mt-4" @click="editing = false; form.reset(); form.clearErrors()">Cancel</button>
             </div>
         </form>
-        <div v-else>{{ post.message }}</div>
+        <div v-else>
+            {{ post.message }}
+            <img :src="post.image" v-if="post.image" class="mt-2"/>
+        </div>
 
         <div class="flex items-center space-x-8">
             <div class="flex items-center text-gray-500 space-x-2">

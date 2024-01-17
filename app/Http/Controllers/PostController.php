@@ -35,7 +35,14 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'message' => 'required|string|max:255',
+            'image' => 'nullable|image',
+            'visibility' => 'required|in:public,only_friends',
         ]);
+    
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $validated['image'] = '/storage/' . $path;
+        }
  
         $request->user()->posts()->create($validated);
  
