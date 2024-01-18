@@ -113,7 +113,7 @@ onBeforeUnmount(() => {
         <div class="flex items-center space-x-8">
             <div class="flex items-center text-gray-500 space-x-2">
                 <font-awesome-icon :icon="['fas', 'eye']" />
-                <div>6355</div>
+                <div>{{ post.views_count }}</div>
             </div>
             <form @submit.prevent="likePost">
                 <button type="submit"

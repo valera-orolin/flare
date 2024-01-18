@@ -15,11 +15,12 @@ class PostController extends Controller
      */
     public function index(): Response 
     {
-        $posts = Post::with('user:id,name')->withCount('likes')->latest()->get();
+        $posts = Post::with('user:id,name')->withCount('likes')->latest()->paginate(5);
 
-        $posts->each(function ($post) {
+        foreach ($posts as $post) {
+            $post->increment('views_count');
             $post->isLikedByUser = $post->isLikedByUser();
-        });
+        }
 
         return Inertia::render('Posts/Index', [
             'posts' => $posts,

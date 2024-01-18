@@ -5,6 +5,9 @@ import HamburgerButton from '@/Components/HamburgerButton.vue';
 import ResponsiveNavPanel from '@/Components/ResponsiveNavPanel.vue';
 import FeedsTypeButtons from '@/Components/FeedsTypeButtons.vue';
 
+const changePage = (url) => {
+    this.$inertia.visit(url);
+}
 </script>
 
 <template>
