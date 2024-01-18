@@ -16,6 +16,20 @@ const form = useForm({
  
 const editing = ref(false);
 const showMore = ref(false);
+const liked = ref(props.post.isLikedByUser);
+const likesCount = ref(props.post.likes_count);
+const likePost = async (event) => {
+    event.preventDefault();
+    const response = await axios.post(route('likes.store', { post_id: props.post.id }));
+    if (response.status === 200) {
+        liked.value = !liked.value;
+        if (liked.value) {
+            likesCount.value++;
+        } else {
+            likesCount.value--;
+        }
+    }
+}
 
 const colors = ['rgb(255 228 230)', 'rgb(252 231 243)', 'rgb(250 232 255)', 'rgb(243 232 255)', 'rgb(237 233 254)', 'rgb(224 231 255)', 'rgb(224 242 254)', 'rgb(207 250 254)', 'rgb(204 251 241)', 'rgb(209 250 229)', 'rgb(220 252 231)', 'rgb(236 252 203)', 'rgb(254 249 195)', 'rgb(254 243 199)', 'rgb(255 237 213)', 'rgb(254 226 226)'];
 const randomIndex = Math.floor(Math.random() * colors.length);
@@ -98,19 +112,20 @@ onBeforeUnmount(() => {
 
         <div class="flex items-center space-x-8">
             <div class="flex items-center text-gray-500 space-x-2">
-                <i class="fas fa-eye"></i>
+                <font-awesome-icon :icon="['fas', 'eye']" />
                 <div>6355</div>
             </div>
-            <form>
+            <form @submit.prevent="likePost">
                 <button type="submit"
-                    class="flex items-center text-red-400 space-x-2 transition-all duration-200 lg:hover:text-black">
-                    <i class="fas fa-heart"></i>
-                    <div>536</div>
+                    class="flex items-center space-x-2 transition-all duration-200 lg:hover:text-black"
+                    :class="{'text-red-400': liked, 'text-gray-500': !liked}">
+                    <font-awesome-icon :icon="['fas', 'heart']" />
+                    <div>{{ likesCount }}</div>
                 </button>
             </form>
             <a href="#"
                 class="flex items-center text-gray-500 space-x-2 transition-all duration-200 lg:hover:text-black">
-                <i class="fas fa-comment"></i>
+                <font-awesome-icon :icon="['fas', 'comment']" />
                 <div>82</div>
             </a>
         </div>

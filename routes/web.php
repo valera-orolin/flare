@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 
@@ -32,6 +33,10 @@ Route::get('/dashboard', function () {
 
 Route::resource('posts', PostController::class)
     ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
+Route::post('/likes', [LikeController::class, 'store'])
+    ->name('likes.store')
     ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
