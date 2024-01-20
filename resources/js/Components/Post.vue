@@ -4,7 +4,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useForm, Link } from '@inertiajs/vue3';
-import { ref, onMounted, onBeforeUnmount, defineEmits } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
  
 dayjs.extend(relativeTime);
 

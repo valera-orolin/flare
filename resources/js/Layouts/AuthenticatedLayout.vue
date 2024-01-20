@@ -4,10 +4,13 @@ import Suggestions from '@/Components/Suggestions.vue';
 import HamburgerButton from '@/Components/HamburgerButton.vue';
 import ResponsiveNavPanel from '@/Components/ResponsiveNavPanel.vue';
 import FeedsTypeButtons from '@/Components/FeedsTypeButtons.vue';
+import { ref } from 'vue';
 
-const changePage = (url) => {
-    this.$inertia.visit(url);
-}
+const isOpen = ref(false);
+
+const updateIsOpen = (value) => {
+    isOpen.value = value;
+};
 </script>
 
 <template>
@@ -27,10 +30,10 @@ const changePage = (url) => {
                     <div class="flex items-center mb-4 lg:hidden">
                         <a href="#" class="text-3xl font-bold absolute left-1/2 transform -translate-x-1/2">Flare</a>
 
-                        <HamburgerButton />
+                        <HamburgerButton @update:isOpen="updateIsOpen"/>
                     </div>
 
-                    <ResponsiveNavPanel />
+                    <ResponsiveNavPanel :isOpen="isOpen"/>
 
                     <FeedsTypeButtons />
                 </div>

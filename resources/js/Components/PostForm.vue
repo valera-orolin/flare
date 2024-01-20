@@ -1,7 +1,7 @@
 <script setup>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm} from '@inertiajs/vue3';
-import { ref, onMounted, onBeforeUnmount, defineEmits } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import 'emoji-picker-element';
 
 const form = useForm({

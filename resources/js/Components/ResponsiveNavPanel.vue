@@ -1,6 +1,10 @@
+<script setup>
+    defineProps(['isOpen']);
+</script>
+
 <template>
     <div class="lg:hidden">
-        <div id="menu" class="absolute flex-col items-center hidden self-end py-8 mt-0 font-bold bg-white left-6 right-6 drop-shadow-md sm:w-auto sm:self-center">
+        <div id="menu" v-show="isOpen" class="absolute flex-col items-center self-end p-8 mt-0 font-bold bg-white left-6 right-6 drop-shadow-md sm:w-auto sm:self-center">
             <div class="space-y-6">
                 <a href="profile.html" class="flex items-center space-x-2">
                     <div class="w-6">
