@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -15,7 +16,7 @@ class PostController extends Controller
      */
     public function index(): Response 
     {
-        $posts = Post::with('user:id,name')->withCount('likes')->latest()->paginate(5);
+        $posts = Post::with('user:id,name')->withCount('likes')->latest()->paginate(15);
 
         foreach ($posts as $post) {
             $post->increment('views_count');
@@ -38,7 +39,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'message' => 'required|string|max:255',
@@ -51,9 +52,11 @@ class PostController extends Controller
             $validated['image'] = '/storage/' . $path;
         }
  
-        $request->user()->posts()->create($validated);
+        $post = $request->user()->posts()->create($validated);
+
+        $post->load('user:id,name');
  
-        return redirect(route('posts.index'));
+        return response()->json($post);
     }
 
     /**
@@ -75,17 +78,27 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post): RedirectResponse
+    public function update(Request $request, Post $post)
     {
         $this->authorize('update', $post);
  
         $validated = $request->validate([
             'message' => 'required|string|max:255',
+            'image' => 'nullable|image',
+            'visibility' => 'required|in:public,only_friends',
         ]);
+
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete(str_replace('/storage/', '', $post->image));
+            $path = $request->file('image')->store('images', 'public');
+            $validated['image'] = '/storage/' . $path;
+        }
  
         $post->update($validated);
+
+        $post->load('user:id,name');
  
-        return redirect(route('posts.index'));
+        return response()->json($post);
     }
 
     /**
@@ -95,6 +108,10 @@ class PostController extends Controller
     {
         $this->authorize('delete', $post);
  
+        if ($post->image) {
+            Storage::disk('public')->delete(str_replace('/storage/', '', $post->image));
+        }
+
         $post->delete();
  
         return redirect(route('posts.index'));

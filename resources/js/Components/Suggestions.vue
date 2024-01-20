@@ -1,5 +1,4 @@
 <template>
-
     <div class="hidden lg:col-span-1 lg:block">
         <div class="sticky top-0 pt-8">
             <div class="text-2xl font-bold">Suggestions</div>
@@ -60,11 +59,9 @@
                 </div>
             </div>
 
-            <!-- See all button -->
             <form>
                 <button type="submit" class="text-base text-gray-500 px-2 transition-all duration-200 rounded-full lg:hover:bg-gray-200 lg:hover:shadow">See All</button>
             </form>
         </div>
     </div>
-
 </template>

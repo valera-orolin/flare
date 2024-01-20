@@ -1,16 +1,16 @@
 <script setup>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm} from '@inertiajs/vue3';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, defineEmits } from 'vue';
 import 'emoji-picker-element';
- 
-defineProps(['posts']);
 
 const form = useForm({
     message: '',
     image: null,
     visibility: 'public'
 });
+
+const emit = defineEmits(['post-created']);
 
 const previewImage = ref(null)
 
@@ -31,11 +31,11 @@ let submitForm = () => {
         headers: {
             'Content-Type': 'multipart/form-data'
         },
-    }).then(() => {
-        form.message = '';
-        form.image = null;
-        form.visibility = 'public';
+    }).then((response) => {
+        form.reset(); 
+        form.clearErrors();
         previewImage.value = null;
+        emit('post-created', response.data);
     }).catch(error => {
         console.error(error);
     });
@@ -55,8 +55,8 @@ const addEmoji = (event) => {
 let handleClickOutside;
 onMounted(() => {
     handleClickOutside = (event) => {
-        const dropdownMenu = document.querySelector('.emoji-picker');
-        if (dropdownMenu && !dropdownMenu.contains(event.target)) {
+        const emojiPicker = document.querySelector('.emoji-picker');
+        if (emojiPicker && !emojiPicker.contains(event.target)) {
             showEmojiPicker.value = false;
         }
     };
@@ -68,7 +68,6 @@ onBeforeUnmount(() => {
 </script>
  
 <template>
-    <!-- Post writing area -->
     <div class="w-full bg-blue-100 rounded-lg p-6 space-y-2">
         <form @submit.prevent="submitForm">
             <textarea id="post-area" maxlength="350"
@@ -76,7 +75,7 @@ onBeforeUnmount(() => {
                 class="w-full p-1 bg-transparent resize-none border-none focus:outline-none" rows="4"
                 placeholder="What's up??">
             </textarea>
-            <img :src="previewImage" v-if="previewImage" />
+            <img :src="previewImage" v-if="previewImage" class="max-h-[30em] object-cover" />
             <div class="flex flex-col items-start justify-between lg:flex-row lg:items-center mt-1">
                 <div class="flex items-center space-x-8">
                     <div>

@@ -3,20 +3,32 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Post from '@/Components/Post.vue';
 import PostForm from '@/Components/PostForm.vue';
 import Pagination from '@/Components/Pagination.vue';
+import { ref } from 'vue';
  
-defineProps(['posts']);
+const props = defineProps(['posts']);
+
+const posts = ref(props.posts);
+
+const addNewPost = (newPost) => {
+    posts.value.data.unshift(newPost);
+};
+
+const updatePost = (updatedPost) => {
+    const index = posts.value.data.findIndex(post => post.id === updatedPost.id);
+    if (index !== -1) {
+        posts.value.data.splice(index, 1, updatedPost);
+    }
+}
 </script>
  
 <template>
-    <Head title="Posts" />
- 
     <AuthenticatedLayout>
-        <!-- Scrollable bottom -->
         <div class="my-4 space-y-4">
 
-            <PostForm/>
+            <PostForm @post-created="addNewPost"/>
 
             <Post
+                @post-updated="updatePost"
                 v-for="post in posts.data"
                 :key="post.id"
                 :post="post"

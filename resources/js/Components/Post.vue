@@ -4,17 +4,57 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useForm, Link } from '@inertiajs/vue3';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, defineEmits } from 'vue';
  
 dayjs.extend(relativeTime);
 
 const props = defineProps(['post']);
+
+const emit = defineEmits(['post-updated']);
  
 const form = useForm({
     message: props.post.message,
+    image: null,
+    visibility: props.post.visibility
 });
- 
+
+const previewImage = ref(props.post.image);
+
+const handleFileUpload = (event) => {
+    form.image = event.target.files[0];
+    previewImage.value = URL.createObjectURL(form.image);
+};
+
+let postMedia;
+const triggerFileInput = () => {
+    postMedia.click();
+};
+
 const editing = ref(false);
+
+let submitForm = () => {
+    let formData = new FormData();
+    formData.append('message', form.message);
+    if (form.image) {
+        formData.append('image', form.image);
+    }
+    formData.append('visibility', form.visibility);
+    formData.append('_method', 'PUT');
+
+    axios.post(route('posts.update', props.post.id), formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+    }).then((response) => {
+        form.reset(); 
+        form.clearErrors();
+        editing.value = false;
+        emit('post-updated', response.data);
+    }).catch(error => {
+        console.error(error);
+    });
+};
+
 const showMore = ref(false);
 const liked = ref(props.post.isLikedByUser);
 const likesCount = ref(props.post.likes_count);
@@ -35,9 +75,20 @@ const colors = ['rgb(255 228 230)', 'rgb(252 231 243)', 'rgb(250 232 255)', 'rgb
 const randomIndex = Math.floor(Math.random() * colors.length);
 let color = colors[randomIndex];
 
+const showEmojiPicker = ref(false);
+
+const addEmoji = (event) => {
+    form.message += event.detail.unicode;
+};
+
 const toggleMore = (event) => {
     event.stopPropagation();
     showMore.value = !showMore.value;
+};
+
+const toggleEmojiPicker = (event) => {
+    event.stopPropagation();
+    showEmojiPicker.value = !showEmojiPicker.value;
 };
 
 let handleClickOutside;
@@ -46,6 +97,10 @@ onMounted(() => {
         const dropdownMenu = document.querySelector('.dropdown-menu');
         if (dropdownMenu && !dropdownMenu.contains(event.target)) {
             showMore.value = false;
+        }
+        const emojiPicker = document.querySelector('.emoji-picker');
+        if (emojiPicker && !emojiPicker.contains(event.target)) {
+            showEmojiPicker.value = false;
         }
     };
     document.addEventListener('click', handleClickOutside);
@@ -56,7 +111,6 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-
     <div class="w-full rounded-lg p-6 space-y-2" :style="{background: color}">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4 group">
@@ -82,7 +136,7 @@ onBeforeUnmount(() => {
                         <button @click="editing = true" class="whitespace-nowrap lg:hover:underline">
                             Edit
                         </button>
-                        <Link :href="route('posts.destroy', post.id)" method="delete" class="whitespace-nowrap lg:hover:underline">
+                        <Link :href="route('posts.destroy', post.id)" method="delete" as="button" class="whitespace-nowrap lg:hover:underline">
                             Delete
                         </Link>
                         </div>
@@ -97,17 +151,39 @@ onBeforeUnmount(() => {
                 </div>
             </div>
         </div>
-        <form v-if="editing" @submit.prevent="form.put(route('posts.update', post.id), { onSuccess: () => editing = false })">
+        <form v-if="editing" @submit.prevent="submitForm">
             <textarea maxlength="350" v-model="form.message" class="w-full p-1 bg-transparent resize-none border-none focus:outline-none" rows="4"></textarea>
-            <InputError :message="form.errors.message" class="mt-2" />
-            <div class="space-x-2">
-                <PrimaryButton class="mt-4">Save</PrimaryButton>
-                <button class="mt-4" @click="editing = false; form.reset(); form.clearErrors()">Cancel</button>
+            <img :src="previewImage" v-if="previewImage" class="max-h-[30em] object-cover" />
+            <div class="flex flex-col items-start justify-between lg:flex-row lg:items-center mt-1">
+                <div class="flex items-center space-x-8">
+                    <div>
+                        <input type="file" ref="postMedia" class="hidden" accept="image/*" @change="handleFileUpload">
+                        <font-awesome-icon :icon="['fas', 'image']" class="fas fa-image text-gray-500 cursor-pointer transition-all duration-200 lg:hover:text-black" @click="triggerFileInput"/>
+                    </div>
+                    <div
+                        class="flex items-center text-gray-500 space-x-2 transition-all duration-200 lg:hover:text-black">
+                        <font-awesome-icon :icon="['fas', 'globe']" id="globe-icon" />
+                        <font-awesome-icon :icon="['fas', 'users']" class="hidden" id="users-icon" />
+                        <select v-model="form.visibility" class="text-gray-500 bg-transparent border-none focus:outline-none">
+                            <option value="public">Public</option>
+                            <option value="only_friends">Only friends</option>
+                        </select>
+                    </div>
+                    <div class="relative inline-block z-10 emoji-picker">
+                        <font-awesome-icon :icon="['fas', 'smile']" class="fas fa-smile text-gray-500 transition-all duration-200 cursor:pointer lg:hover:text-black" @click="toggleEmojiPicker" />
+                        <emoji-picker v-show="showEmojiPicker" @emoji-click="addEmoji"
+                            class="absolute left-[-250px] scale-75 transform top-full mt-1 shadow-2xl md:left-0 md:scale-100"></emoji-picker>
+                    </div>
+                </div>
+                <div class="space-x-2">
+                    <PrimaryButton class="mt-4">Save</PrimaryButton>
+                    <button class="mt-4" @click="editing = false; form.reset(); form.clearErrors()">Cancel</button>
+                </div>
             </div>
         </form>
         <div v-else>
             {{ post.message }}
-            <img :src="post.image" v-if="post.image" class="mt-2"/>
+            <img :src="post.image" v-if="post.image" class="mt-2 max-h-[30em] object-cover"/>
         </div>
 
         <div class="flex items-center space-x-8">
@@ -130,5 +206,4 @@ onBeforeUnmount(() => {
             </a>
         </div>
     </div>
-
 </template>
