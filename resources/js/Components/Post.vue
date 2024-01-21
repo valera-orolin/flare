@@ -1,5 +1,4 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -199,10 +198,10 @@ onBeforeUnmount(() => {
                     <div>{{ likesCount }}</div>
                 </button>
             </form>
-            <a href="#"
+            <a :href="'/posts/' + post.id + '/comments'"
                 class="flex items-center text-gray-500 space-x-2 transition-all duration-200 lg:hover:text-black">
                 <font-awesome-icon :icon="['fas', 'comment']" />
-                <div>82</div>
+                <div>{{ post.comments_count }}</div>
             </a>
         </div>
     </div>

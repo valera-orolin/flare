@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index(): Response 
     {
-        $posts = Post::with('user:id,name')->withCount('likes')->latest()->paginate(15);
+        $posts = Post::with('user:id,name')->withCount('likes')->withCount('comments')->latest()->paginate(15);
 
         foreach ($posts as $post) {
             $post->increment('views_count');
