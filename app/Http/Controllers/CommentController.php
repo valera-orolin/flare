@@ -15,9 +15,9 @@ class CommentController extends Controller
      */
     public function index(Post $post): Response 
     {
-        $comments = Comment::with('user:id,name')->where('post_id', $post->id)->latest()->get();
+        $comments = Comment::with('user:id,name,user_id')->where('post_id', $post->id)->latest()->get();
 
-        $post->load('user:id,name')->loadCount(['likes', 'comments']);
+        $post->load('user:id,name,user_id')->loadCount(['likes', 'comments']);
         $post->isLikedByUser = $post->isLikedByUser();
 
         return Inertia::render('Comments/Index', [

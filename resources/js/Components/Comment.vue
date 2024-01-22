@@ -17,7 +17,7 @@ defineProps(['comment']);
                     <a href="#" class="text-base flex flex-col space-x-1 md:flex-row">
                         <div class="font-bold max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap lg:group-hover:underline">{{ comment.user.name }}</div>
                         <div class="text-gray-500 hidden md:block">•</div>
-                        <div class="text-gray-500 max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap hidden md:block">@someusersidsomeusersidsomeusersid</div>
+                        <div class="text-gray-500 max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap hidden md:block">{{ comment.user.user_id }}</div>
                     </a>
                     <div class="text-sm text-gray-500">{{ dayjs(comment.created_at).fromNow() }}</div>
                 </div>
