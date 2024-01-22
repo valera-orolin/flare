@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Post from '@/Components/Post.vue';
-import PostForm from '@/Components/PostForm.vue';
+import Post from './Partials/Post.vue';
+import PostForm from './Partials/PostForm.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { ref } from 'vue';
  

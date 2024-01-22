@@ -1,8 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Post from '@/Components/Post.vue';
-import Comment from '@/Components/Comment.vue';
-import CommentForm from '@/Components/CommentForm.vue';
+import Post from '../Posts/Partials/Post.vue';
+import Comment from './Partials/Comment.vue';
+import CommentForm from './Partials/CommentForm.vue';
 
 const props = defineProps(['post', 'comments']);
 
