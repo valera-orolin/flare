@@ -3,7 +3,7 @@ import NavPanel from '@/Components/NavPanel.vue';
 import Suggestions from '@/Components/Suggestions.vue';
 import HamburgerButton from '@/Components/HamburgerButton.vue';
 import ResponsiveNavPanel from '@/Components/ResponsiveNavPanel.vue';
-import FeedsTypeButtons from '@/Components/FeedsTypeButtons.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import { ref } from 'vue';
 
 const isOpen = ref(false);
@@ -35,7 +35,7 @@ const updateIsOpen = (value) => {
 
                     <ResponsiveNavPanel :isOpen="isOpen"/>
 
-                    <FeedsTypeButtons />
+                    <PageHeader />
                 </div>
 
                 <main>
