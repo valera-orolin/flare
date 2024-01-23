@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('message');
+            $table->string('message', 500);
             $table->integer('views_count')->default(0);
             $table->string('image')->nullable();
             $table->enum('visibility', ['public', 'only_friends']);

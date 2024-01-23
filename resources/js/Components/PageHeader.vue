@@ -5,14 +5,21 @@ import { ref } from 'vue';
 const currentPage = ref('Feeds');
 
 Inertia.on('navigate', (event) => {
-  switch(event.detail.page.url) {
-    case '/posts':
-        currentPage.value = 'Feeds';
-        break;
-    case '/profile/edit':
-        currentPage.value = 'Settings';
-        break;
-  }
+    if (event.detail.page.url.startsWith('/profile/') && !event.detail.page.url.endsWith('/edit')) {
+        currentPage.value = "Profile";
+    } else {
+        switch(event.detail.page.url) {
+        case '/posts':
+            currentPage.value = 'Feeds';
+            break;
+        case '/profile/edit':
+            currentPage.value = 'Settings';
+            break;
+        default:
+            currentPage.value = '';
+            break;
+        }
+    }
 });
 </script>
 

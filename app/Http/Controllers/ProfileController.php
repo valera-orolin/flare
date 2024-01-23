@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -14,6 +16,16 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class ProfileController extends Controller
 {
+    public function show(User $user): Response
+    {
+        $posts = Post::with('user:id,name,user_id,avatar')->where('user_id', $user->id)->latest()->paginate(15);
+
+        return Inertia::render('Profile/Show', [
+            'user' => $user,
+            'posts' => $posts,
+        ]);
+    }
+    
     /**
      * Display the user's profile form.
      */
@@ -31,6 +43,10 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+
+        if (empty($validated['description'])) {
+            $validated['description'] = null;
+        }
 
         if ($request->hasFile('avatar')) {
             Storage::disk('public')->delete(str_replace('/storage/', '', $request->user()->avatar));

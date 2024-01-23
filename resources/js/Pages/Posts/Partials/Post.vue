@@ -112,7 +112,7 @@ onBeforeUnmount(() => {
 <template>
     <div class="w-full rounded-lg p-6 space-y-2" :style="{background: color}">
         <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-4 group">
+            <Link :href="route('profile.show', post.user.id)" class="flex items-center space-x-4 group">
                 <img v-if="post.user.avatar" class="w-12 h-12 rounded-full object-cover object-center" :src="post.user.avatar" alt="Avatar">
                 <img v-else class="w-12 h-12 rounded-full object-cover object-center" src="/storage/images/default-avatar.jpeg" alt="Default Avatar">
                 <div class="flex flex-col overflow-hidden">
@@ -123,7 +123,7 @@ onBeforeUnmount(() => {
                     </a>
                     <div class="text-sm text-gray-500">{{ dayjs(post.created_at).fromNow() }}</div>
                 </div>
-            </div>
+            </Link>
             <div class="relative inline-block z-10">
                 <button @click="toggleMore" class="flex space-x-1 border-gray-500 rounded-full py-4 px-2 transition-all duration-200 group lg:hover:bg-gray-300 lg:hover:shadow">
                     <div class="w-1 h-1 bg-gray-500 rounded-full lg:group-hover:bg-white"></div>

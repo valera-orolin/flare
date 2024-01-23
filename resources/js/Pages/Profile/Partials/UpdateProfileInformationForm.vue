@@ -20,7 +20,7 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     avatar: user.avatar,
-    description: user.description,
+    description: user.description ? user.description : "",
     user_id: user.user_id,
     email: user.email,
 });
@@ -43,7 +43,9 @@ let submitForm = () => {
     if (form.avatar) {
         formData.append('avatar', form.avatar);
     }
-    formData.append('description', form.description);
+    if (form.description) {
+        formData.append('description', form.description);
+    }
     formData.append('user_id', form.user_id);
     formData.append('email', form.email);
     formData.append('_method', 'PATCH');
