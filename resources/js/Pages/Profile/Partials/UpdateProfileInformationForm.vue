@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 defineProps({
     mustVerifyEmail: {
@@ -18,9 +19,46 @@ const user = usePage().props.auth.user;
 
 const form = useForm({
     name: user.name,
+    avatar: user.avatar,
+    description: user.description,
     user_id: user.user_id,
     email: user.email,
 });
+
+const previewImage = ref(user.avatar);
+
+const handleFileUpload = (event) => {
+    form.avatar = event.target.files[0];
+    previewImage.value = URL.createObjectURL(form.avatar);
+};
+
+const triggerFileInput = () => {
+    const fileInput = document.getElementById('post-media');
+    fileInput.click();
+};
+
+let submitForm = () => {
+    let formData = new FormData();
+    formData.append('name', form.name);
+    if (form.avatar) {
+        formData.append('avatar', form.avatar);
+    }
+    formData.append('description', form.description);
+    formData.append('user_id', form.user_id);
+    formData.append('email', form.email);
+    formData.append('_method', 'PATCH');
+
+    axios.post(route('profile.update'), formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+    }).then(() => {
+        form.recentlySuccessful = true;
+        setTimeout(() => form.recentlySuccessful = false, 2000);
+    }).catch(error => {
+        console.error(error);
+    });
+};
 </script>
 
 <template>
@@ -33,7 +71,17 @@ const form = useForm({
             </p>
         </header>
 
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+        <form @submit.prevent="submitForm" class="mt-6 space-y-6">
+            <div class="flex flex-col items-center">
+                <img v-if="previewImage" class="w-28 h-28 rounded-full object-cover object-center" :src="previewImage" alt="Avatar">
+                <img v-else class="w-28 h-28 rounded-full object-cover object-center" src="/storage/images/default-avatar.jpeg" alt="Default Avatar">
+
+                <div>
+                    <input type="file" id="post-media" class="hidden" accept="image/*" @change="handleFileUpload">
+                    <font-awesome-icon :icon="['fas', 'image']" class="fas fa-image text-gray-500 cursor-pointer transition-all duration-200 lg:hover:text-black" @click="triggerFileInput"/>
+                </div>
+            </div>
+
             <div>
                 <InputLabel for="name" value="Name" />
 
@@ -63,6 +111,19 @@ const form = useForm({
                 />
 
                 <InputError class="mt-2" :message="form.errors.user_id" />
+            </div>
+
+            <div>
+                <InputLabel for="description" value="Description" />
+
+                <TextInput
+                    id="description"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.description"
+                />
+
+                <InputError class="mt-2" :message="form.errors.description" />
             </div>
 
             <div>

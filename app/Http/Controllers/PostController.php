@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index(): Response 
     {
-        $posts = Post::with('user:id,name,user_id')->withCount('likes')->withCount('comments')->latest()->paginate(15);
+        $posts = Post::with('user:id,name,user_id,avatar')->withCount('likes')->withCount('comments')->latest()->paginate(15);
 
         foreach ($posts as $post) {
             $post->increment('views_count');
@@ -54,7 +54,7 @@ class PostController extends Controller
  
         $post = $request->user()->posts()->create($validated);
 
-        $post->load('user:id,name,user_id');
+        $post->load('user:id,name,user_id,avatar');
  
         return response()->json($post);
     }
@@ -96,7 +96,7 @@ class PostController extends Controller
  
         $post->update($validated);
 
-        $post->load('user:id,name,user_id');
+        $post->load('user:id,name,user_id,avatar');
  
         return response()->json($post);
     }
