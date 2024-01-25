@@ -34,14 +34,14 @@ const user = usePage().props.auth.user;
                         Messages
                     </div>
                 </a>
-                <a href="friends.html" class="nav-link">
+                <Link :href="route('follows.friends')" class="nav-link">
                     <div class="w-6">
                         <font-awesome-icon :icon="['fas', 'users']" />
                     </div>
                     <div>
                         Friends
                     </div>
-                </a>
+                </Link>
                 <a href="notifications.html" class="nav-link">
                     <div class="w-6">
                         <font-awesome-icon :icon="['fas', 'bell']" />

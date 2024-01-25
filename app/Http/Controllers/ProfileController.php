@@ -18,7 +18,17 @@ class ProfileController extends Controller
 {
     public function show(User $user): Response
     {
-        $posts = Post::with('user:id,name,user_id,avatar')->where('user_id', $user->id)->latest()->paginate(15);
+        $posts = Post::with('user:id,name,user_id,avatar')->where('user_id', $user->id)
+            ->withCount('likes')->withCount('comments')->latest()->paginate(15);
+
+        foreach ($posts as $post) {
+            $post->increment('views_count');
+            $post->isLikedByUser = $post->isLikedByUser();
+        }
+
+        $user->isFollowedByUser = $user->isFollowedByUser();
+        $user->followersCount = $user->followers()->count();
+        $user->followeesCount = $user->followees()->count();
 
         return Inertia::render('Profile/Show', [
             'user' => $user,

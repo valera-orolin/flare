@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 
@@ -43,6 +44,13 @@ Route::resource('posts.comments', CommentController::class)
 Route::post('/likes', [LikeController::class, 'store'])
     ->name('likes.store')
     ->middleware(['auth', 'verified']);
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/follows', [FollowController::class, 'store'])->name('follows.store');
+    Route::get('/follows/friends', [FollowController::class, 'friends'])->name('follows.friends');
+    Route::get('/follows/followers/{user}', [FollowController::class, 'followers'])->name('follows.followers');
+    Route::get('/follows/followees/{user}', [FollowController::class, 'followees'])->name('follows.followees');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

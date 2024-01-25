@@ -2,23 +2,27 @@
 import { Inertia } from '@inertiajs/inertia'
 import { ref } from 'vue';
 
-const currentPage = ref('Feeds');
+const currentPage = ref('');
 
 Inertia.on('navigate', (event) => {
-    if (event.detail.page.url.startsWith('/profile/') && !event.detail.page.url.endsWith('/edit')) {
+    const currentRouteName = route().current();
+
+    if (currentRouteName.startsWith('profile.show')) {
         currentPage.value = "Profile";
+    } else if (currentRouteName == 'posts.index') {
+        currentPage.value = 'Feeds';
+    } else if (currentRouteName.startsWith('posts.comments')) {
+        currentPage.value = 'Comments';
+    } else if (currentRouteName.startsWith('follows.followers')) {
+        currentPage.value = 'Followers';
+    } else if (currentRouteName.startsWith('follows.followees')) {
+        currentPage.value = 'Following';
+    } else if (currentRouteName == 'follows.friends') {
+        currentPage.value = 'Friends';
+    } else if (currentRouteName == 'profile.edit') {
+        currentPage.value = 'Settings';
     } else {
-        switch(event.detail.page.url) {
-        case '/posts':
-            currentPage.value = 'Feeds';
-            break;
-        case '/profile/edit':
-            currentPage.value = 'Settings';
-            break;
-        default:
-            currentPage.value = '';
-            break;
-        }
+        currentPage.value = "x";
     }
 });
 </script>
