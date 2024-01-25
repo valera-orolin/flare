@@ -76,7 +76,7 @@ class User extends Authenticatable
 
     public function friends(): BelongsToMany
     {
-        $following = $this->following()->pluck('users.id');
+        $following = $this->followees()->pluck('users.id');
         return $this->followers()->whereIn('users.id', $following);
     }
 

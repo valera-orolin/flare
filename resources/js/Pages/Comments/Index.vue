@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Post from '../Posts/Partials/Post.vue';
 import Comment from './Partials/Comment.vue';
 import CommentForm from './Partials/CommentForm.vue';
+import BackButton from '@/Components/BackButton.vue';
 
 const props = defineProps(['post', 'comments']);
 
@@ -13,7 +14,7 @@ const goBack = () => window.history.back();
     <AuthenticatedLayout>
         <div class="my-4 space-y-4">
 
-            <button  @click="goBack" class="px-4 py-2 text-white bg-blue-300 rounded hover:bg-blue-400"><font-awesome-icon :icon="['fas', 'arrow-left']" /></button>
+            <BackButton />
 
             <Post :post="post" />
 

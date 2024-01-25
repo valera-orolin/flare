@@ -5,6 +5,7 @@ import HamburgerButton from '@/Components/HamburgerButton.vue';
 import ResponsiveNavPanel from '@/Components/ResponsiveNavPanel.vue';
 import PageHeader from '@/Components/PageHeader.vue';
 import { ref } from 'vue';
+import { Head } from '@inertiajs/vue3';
 
 const isOpen = ref(false);
 
@@ -14,6 +15,8 @@ const updateIsOpen = (value) => {
 </script>
 
 <template>
+
+    <Head title="Flare" />
 
     <div class="container mx-auto px-4">
 

@@ -58,7 +58,7 @@ const user = usePage().props.auth.user;
                         Settings
                     </div>
                 </Link>
-                <a href="#" class="font-bold w-full mt-4 rounded-full text-white bg-black py-4 px-6 transition-all duration-200 hover:bg-gray-500">Publish post</a>
+                <Link :href="route('posts.index')" class="font-bold w-full mt-4 rounded-full text-white bg-black py-4 px-6 transition-all duration-200 hover:bg-gray-500">Publish post</Link>
             </div>
         </div>
     </div>

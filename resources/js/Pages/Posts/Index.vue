@@ -10,6 +10,9 @@ const props = defineProps(['posts']);
 const posts = ref(props.posts);
 
 const addNewPost = (newPost) => {
+    newPost.comments_count = 0;
+    newPost.likes_count = 0;
+    newPost.views_count = 0;
     posts.value.data.unshift(newPost);
 };
 

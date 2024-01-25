@@ -10,6 +10,12 @@ const props = defineProps(['posts', 'user']);
 const posts = ref(props.posts);
 const user = ref(props.user);
 
+const updatePost = (updatedPost) => {
+    const index = posts.value.data.findIndex(post => post.id === updatedPost.id);
+    if (index !== -1) {
+        posts.value.data.splice(index, 1, updatedPost);
+    }
+}
 </script>
  
 <template>
@@ -19,6 +25,7 @@ const user = ref(props.user);
             <ProfileHeader :user="user" />
 
             <Post
+                @post-updated="updatePost"
                 v-for="post in posts.data"
                 :key="post.id"
                 :post="post"
