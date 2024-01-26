@@ -3,10 +3,12 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -34,7 +36,7 @@ Route::resource('posts', PostController::class)
     ->middleware(['auth', 'verified']);
 
 Route::resource('posts.comments', CommentController::class)
-    ->only(['index', 'store', 'destroy'])
+    ->only(['index', 'store'])
     ->middleware(['auth', 'verified']);
 
 Route::post('/likes', [LikeController::class, 'store'])
@@ -47,6 +49,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/follows/followers/{user}', [FollowController::class, 'followers'])->name('follows.followers');
     Route::get('/follows/followees/{user}', [FollowController::class, 'followees'])->name('follows.followees');
 });
+
+Route::resource('chat', ChatController::class)
+    ->only(['index', 'store'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('message', MessageController::class)
+    ->only(['index', 'store'])
+    ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

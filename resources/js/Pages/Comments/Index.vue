@@ -7,8 +7,6 @@ import BackButton from '@/Components/BackButton.vue';
 import Pagination from '@/Components/Pagination.vue';
 
 const props = defineProps(['post', 'comments']);
-
-const goBack = () => window.history.back();
 </script>
  
 <template>
