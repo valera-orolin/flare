@@ -4,6 +4,7 @@ import Post from '../Posts/Partials/Post.vue';
 import Comment from './Partials/Comment.vue';
 import CommentForm from './Partials/CommentForm.vue';
 import BackButton from '@/Components/BackButton.vue';
+import Pagination from '@/Components/Pagination.vue';
 
 const props = defineProps(['post', 'comments']);
 
@@ -18,12 +19,13 @@ const goBack = () => window.history.back();
 
             <Post :post="post" />
 
-            <Comment v-for="comment in comments"
+            <Comment v-for="comment in comments.data"
                 :key="comment.id"
                 :comment="comment" />
 
-            <CommentForm :post="post" />
+            <Pagination :items="comments" />
 
+            <CommentForm :post="post" />
         </div>
     </AuthenticatedLayout>
 </template>

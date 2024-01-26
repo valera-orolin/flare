@@ -21,6 +21,7 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $post->increment('views_count');
             $post->isLikedByUser = $post->isLikedByUser();
+            $post->user->isFollowedByUser = $post->user->isFollowedByUser();
         }
 
         return Inertia::render('Posts/Index', [
@@ -104,7 +105,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post): RedirectResponse
+    public function destroy(Post $post)
     {
         $this->authorize('delete', $post);
  
@@ -112,8 +113,9 @@ class PostController extends Controller
             Storage::disk('public')->delete(str_replace('/storage/', '', $post->image));
         }
 
+        $postid = $post->id;
         $post->delete();
  
-        return redirect(route('posts.index'));
+        return response()->json($postid);
     }
 }

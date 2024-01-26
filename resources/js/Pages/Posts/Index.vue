@@ -22,6 +22,13 @@ const updatePost = (updatedPost) => {
         posts.value.data.splice(index, 1, updatedPost);
     }
 }
+
+const destroyPost = (destroyedPostId) => {
+    const index = posts.value.data.findIndex(post => post.id === destroyedPostId);
+    if (index !== -1) {
+        posts.value.data.splice(index, 1);
+    }
+}
 </script>
  
 <template>
@@ -32,12 +39,13 @@ const updatePost = (updatedPost) => {
 
             <Post
                 @post-updated="updatePost"
+                @post-destroyed="destroyPost"
                 v-for="post in posts.data"
                 :key="post.id"
                 :post="post"
             />
 
-            <Pagination :posts="posts" />
+            <Pagination :items="posts" />
         </div>
     </AuthenticatedLayout>
 </template>

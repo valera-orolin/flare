@@ -9,7 +9,7 @@ dayjs.extend(relativeTime);
 
 const props = defineProps(['post']);
 
-const emit = defineEmits(['post-updated']);
+const emit = defineEmits(['post-updated', 'post-destroyed']);
  
 const form = useForm({
     message: props.post.message,
@@ -53,6 +53,22 @@ let submitForm = () => {
         console.error(error);
     });
 };
+
+let deletePost = () => {
+    let formData = new FormData();
+    formData.append('_method', 'DELETE');
+
+    axios.post(route('posts.destroy', props.post.id), formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+    }).then((response) => {
+        emit('post-destroyed', response.data)
+    }).catch(error => {
+        console.error(error);
+    });
+};
+
 
 const showMore = ref(false);
 const liked = ref(props.post.isLikedByUser);
@@ -107,6 +123,15 @@ onMounted(() => {
 onBeforeUnmount(() => {
     document.removeEventListener('click', handleClickOutside);
 });
+
+const followed = ref(props.post.user.isFollowedByUser);
+const followUser = async (event) => {
+    event.preventDefault();
+    const response = await axios.post(route('follows.store', { followee_id: props.post.user.id }));
+    if (response.status === 200) {
+        followed.value = !followed.value;
+    }
+}
 </script>
 
 <template>
@@ -135,16 +160,16 @@ onBeforeUnmount(() => {
                         <button @click="editing = true" class="whitespace-nowrap lg:hover:underline">
                             Edit
                         </button>
-                        <Link :href="route('posts.destroy', post.id)" method="delete" as="button" class="whitespace-nowrap lg:hover:underline">
-                            Delete
-                        </Link>
+                        <form @submit.prevent="deletePost" method="delete" as="button" class="whitespace-nowrap lg:hover:underline">
+                            <button class="lg:hover:underline">Delete</button>
+                        </form>
                         </div>
                     <div v-else class="flex flex-col items-start">
+                        <form @submit.prevent="followUser" class="whitespace-nowrap lg:hover:underline">
+                            <button class="lg:hover:underline">{{ (followed ? 'Unfollow' : 'Follow')  + ' @' + post.user.user_id}}</button>
+                        </form>
                         <a href="#" class="whitespace-nowrap lg:hover:underline">
-                            Follow @{{ post.user.name }}
-                        </a>
-                        <a href="#" class="whitespace-nowrap lg:hover:underline">
-                            Block @{{ post.user.name }}
+                            Block @{{ post.user.user_id }}
                         </a>
                     </div>
                 </div>

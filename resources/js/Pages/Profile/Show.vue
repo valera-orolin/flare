@@ -31,7 +31,7 @@ const updatePost = (updatedPost) => {
                 :post="post"
             />
 
-            <Pagination :posts="posts" />
+            <Pagination :items="posts" />
         </div>
     </AuthenticatedLayout>
 </template>

@@ -15,7 +15,7 @@ class CommentController extends Controller
      */
     public function index(Post $post): Response 
     {
-        $comments = Comment::with('user:id,name,user_id,avatar')->where('post_id', $post->id)->latest()->get();
+        $comments = Comment::with('user:id,name,user_id,avatar')->where('post_id', $post->id)->latest()->paginate(15);
 
         $post->load('user:id,name,user_id,avatar')->loadCount(['likes', 'comments']);
         $post->isLikedByUser = $post->isLikedByUser();

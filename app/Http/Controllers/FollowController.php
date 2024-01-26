@@ -15,7 +15,7 @@ class FollowController extends Controller
      */
     public function friends(Request $request): Response
     {
-        $users = $request->user()->friends()->get();
+        $users = $request->user()->friends()->paginate(15);
 
         foreach ($users as $user) {
             $user->isFollowedByUser = $user->isFollowedByUser();
@@ -28,7 +28,7 @@ class FollowController extends Controller
 
     public function followers(User $user): Response
     {
-        $followers = $user->followers()->get();
+        $followers = $user->followers()->paginate(15);
 
         foreach ($followers as $follower) {
             $follower->isFollowedByUser = $follower->isFollowedByUser();
@@ -41,7 +41,7 @@ class FollowController extends Controller
 
     public function followees(User $user): Response
     {
-        $followees = $user->followees()->get();
+        $followees = $user->followees()->paginate(15);
 
         foreach ($followees as $followee) {
             $followee->isFollowedByUser = $followee->isFollowedByUser();

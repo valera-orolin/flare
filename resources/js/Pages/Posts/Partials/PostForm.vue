@@ -84,8 +84,8 @@ onBeforeUnmount(() => {
                     </div>
                     <div
                         class="flex items-center text-gray-500 space-x-2 transition-all duration-200 lg:hover:text-black">
-                        <font-awesome-icon :icon="['fas', 'globe']" id="globe-icon" />
-                        <font-awesome-icon :icon="['fas', 'users']" class="hidden" id="users-icon" />
+                        <font-awesome-icon v-if="form.visibility=='public'" :icon="['fas', 'globe']" id="globe-icon" />
+                        <font-awesome-icon v-else :icon="['fas', 'users']" id="users-icon" />
                         <select v-model="form.visibility" class="text-gray-500 bg-transparent border-none focus:outline-none">
                             <option value="public">Public</option>
                             <option value="only_friends">Only friends</option>

@@ -2,10 +2,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Follow from './Partials/Follow.vue';
 import BackButton from '@/Components/BackButton.vue';
+import Pagination from '@/Components/Pagination.vue';
  
 const props = defineProps(['users']);
-
-console.log(props.users);
 </script>
  
 <template>
@@ -15,11 +14,12 @@ console.log(props.users);
             <BackButton />
 
             <Follow
-                v-for="user in users"
+                v-for="user in users.data"
                 :key="user.id"
                 :user="user"
             />
 
+            <Pagination :items="users" />
         </div>
     </AuthenticatedLayout>
 </template>
