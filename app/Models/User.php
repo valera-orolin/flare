@@ -84,4 +84,17 @@ class User extends Authenticatable
     {
         return $this->followers()->where('follower_id', auth()->id())->exists();
     }
+
+    public function chats(): HasMany
+    {
+        $chats1 = $this->hasMany(Chat::class, 'user1_id');
+        $chats2 = $this->hasMany(Chat::class, 'user2_id');
+
+        return $chats1->union($chats2);
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
 }

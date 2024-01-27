@@ -26,14 +26,14 @@ const user = usePage().props.auth.user;
                         Feeds
                     </div>
                 </Link>
-                <a href="messages.html" class="nav-link">
+                <Link :href="route('chats.index')" class="nav-link">
                     <div class="w-6">
                         <font-awesome-icon :icon="['fas', 'envelope']" />
                     </div>
                     <div>
                         Messages
                     </div>
-                </a>
+                </Link>
                 <Link :href="route('follows.friends')" class="nav-link">
                     <div class="w-6">
                         <font-awesome-icon :icon="['fas', 'users']" />

@@ -1,4 +1,5 @@
 <script setup>
+
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Chat from './Partials/Chat.vue';
 import BackButton from '@/Components/BackButton.vue';
@@ -12,7 +13,7 @@ const props = defineProps(['chats']);
         <div class="my-4 space-y-4">
 
             <BackButton />
-
+            
             <Chat v-for="chat in chats.data"
                 :key="chat.id"
                 :chat="chat" />

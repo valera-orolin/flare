@@ -50,11 +50,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/follows/followees/{user}', [FollowController::class, 'followees'])->name('follows.followees');
 });
 
-Route::resource('chat', ChatController::class)
+Route::resource('chats', ChatController::class)
     ->only(['index', 'store'])
     ->middleware(['auth', 'verified']);
 
-Route::resource('message', MessageController::class)
+Route::resource('messages', MessageController::class)
     ->only(['index', 'store'])
     ->middleware(['auth', 'verified']);
 
