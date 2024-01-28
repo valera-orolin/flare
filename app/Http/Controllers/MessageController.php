@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
+use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Message;
 use Illuminate\Http\Request;
 
@@ -10,9 +13,21 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, User $user)
     {
-        //
+        $interlocutor = $user;
+
+        $chats = $request->user()->chats()->get();
+
+        $chat = $chats->first(function ($chat) use ($interlocutor) {
+            return $chat->user1_id == $interlocutor->id || $chat->user2_id == $interlocutor->id;
+        });
+
+        $messages = $chat->messages()->paginate(15);
+
+        return Inertia::render('Chats/Show', [
+            'messages' => $messages,
+        ]);
     }
 
     /**

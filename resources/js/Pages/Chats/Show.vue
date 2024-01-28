@@ -1,10 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Chat from './Partials/Chat.vue';
+import Message from './Partials/Message.vue';
 import BackButton from '@/Components/BackButton.vue';
 import Pagination from '@/Components/Pagination.vue';
 
-const props = defineProps(['chats']);
+const props = defineProps(['messages']);
 </script>
  
 <template>
@@ -13,11 +13,11 @@ const props = defineProps(['chats']);
 
             <BackButton />
             
-            <Chat v-for="chat in chats.data"
-                :key="chat.id"
-                :chat="chat" />
+            <Message v-for="message in messages.data"
+                :key="message.id"
+                :message="message" />
 
-            <Pagination :items="chats" />
+            <Pagination :items="messages" />
         </div>
     </AuthenticatedLayout>
 </template>

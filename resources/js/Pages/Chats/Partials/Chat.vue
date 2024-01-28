@@ -11,8 +11,8 @@ const props = defineProps(['chat']);
 </script>
 
 <template>
-    <div class="w-full bg-gray-100 rounded-lg p-6 space-y-2 lg:hover:bg-gray-50">
-        <div class="flex items-center space-x-4">
+    <div class="w-full bg-gray-100 rounded-lg p-6 space-y-2 lg:hover:bg-gray-50 lg:hover:cursor-pointer">
+        <Link :href="route('messages.index', chat.interlocutor.id)" class="flex items-center space-x-4">
             <img v-if="chat.interlocutor.avatar" class="w-12 h-12 rounded-full object-cover object-center" :src="chat.interlocutor.avatar" alt="Avatar">
             <img v-else class="w-12 h-12 rounded-full object-cover object-center" src="/storage/images/default-avatar.jpeg" alt="Default Avatar">
             <div class="flex flex-col w-full">
@@ -31,6 +31,6 @@ const props = defineProps(['chat']);
                     <div class="bg-gray-500 text-white text-xs rounded-full py-1 px-2">13</div>
                 </div>
             </div>
-        </div>
+        </Link>
     </div>
 </template>
