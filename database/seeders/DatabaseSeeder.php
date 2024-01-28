@@ -78,6 +78,86 @@ class DatabaseSeeder extends Seeder
                 'chat_id' => $chat1,
             ],
             [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 2!',
+                'user_id' => $user1,
+                'chat_id' => $chat1,
+            ],
+            [
+                'content' => 'Hello, User 1!',
+                'user_id' => $user2,
+                'chat_id' => $chat1,
+            ],
+            [
                 'content' => 'Hello, User 3!',
                 'user_id' => $user1,
                 'chat_id' => $chat2,

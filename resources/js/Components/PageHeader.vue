@@ -13,7 +13,8 @@ Inertia.on('navigate', (event) => {
         currentPage.value = 'Feeds';
     } else if (currentRouteName.startsWith('posts.comments')) {
         currentPage.value = 'Comments';
-    } else if (currentRouteName.startsWith('chats.index')) {
+    } else if (currentRouteName.startsWith('chats.index') || 
+        currentRouteName.startsWith('messages.index')) {
         currentPage.value = 'Messages';
     } else if (currentRouteName.startsWith('follows.followers')) {
         currentPage.value = 'Followers';

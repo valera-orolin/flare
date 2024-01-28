@@ -23,7 +23,7 @@ class MessageController extends Controller
             return $chat->user1_id == $interlocutor->id || $chat->user2_id == $interlocutor->id;
         });
 
-        $messages = $chat->messages()->paginate(15);
+        $messages = $chat->messages()->with('user:id,name')->paginate(15);
 
         return Inertia::render('Chats/Show', [
             'messages' => $messages,

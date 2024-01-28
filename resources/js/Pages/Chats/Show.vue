@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Message from './Partials/Message.vue';
+import MessageForm from './Partials/MessageForm.vue';
 import BackButton from '@/Components/BackButton.vue';
 import Pagination from '@/Components/Pagination.vue';
 
@@ -18,6 +19,8 @@ const props = defineProps(['messages']);
                 :message="message" />
 
             <Pagination :items="messages" />
+
+            <MessageForm />
         </div>
     </AuthenticatedLayout>
 </template>
