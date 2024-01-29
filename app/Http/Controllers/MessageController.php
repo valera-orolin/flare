@@ -6,6 +6,7 @@ use App\Models\Chat;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Message;
+use App\Events\MessageSent;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -24,6 +25,10 @@ class MessageController extends Controller
         });
 
         $messages = $chat->messages()->with('user:id,name')->paginate(15);
+
+        foreach ($messages as $message) {
+            broadcast(new MessageSent($message));
+        }
 
         return Inertia::render('Chats/Show', [
             'messages' => $messages,

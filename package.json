@@ -25,6 +25,8 @@
         "date-fns": "^3.3.1",
         "dayjs": "^1.11.10",
         "emoji-picker-element": "^1.21.0",
+        "laravel-echo": "^1.15.3",
+        "pusher-js": "^8.4.0-rc2",
         "vue-router": "^4.2.5"
     }
 }
