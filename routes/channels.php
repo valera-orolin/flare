@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('chat.{chatId}', function ($user, $chatId) {
+    return $user->isInChat($chatId);
 });
 
-
-Broadcast::channel('chat.{id}', function ($user, $id) {
-    return true; // или любая другая логика проверки прав доступа
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });

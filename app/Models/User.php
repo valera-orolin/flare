@@ -97,4 +97,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
+
+    public function isInChat($chatId): bool 
+    {
+        $chat = Chat::find($chatId);
+        return $chat && ($this->id == $chat->user1_id || $this->id == $chat->user2_id);
+    }
 }

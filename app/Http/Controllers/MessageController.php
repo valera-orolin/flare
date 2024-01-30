@@ -26,12 +26,15 @@ class MessageController extends Controller
 
         $messages = $chat->messages()->with('user:id,name')->paginate(15);
 
+        /*
         foreach ($messages as $message) {
             broadcast(new MessageSent($message));
         }
+        */
 
         return Inertia::render('Chats/Show', [
             'messages' => $messages,
+            'chat' => $chat,
         ]);
     }
 
@@ -46,9 +49,24 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Chat $chat)
     {
-        //
+        $validated = $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+ 
+        $message = new Message;
+        $message->content = $validated['content'];
+        $message->user_id = $request->user()->id;
+        $message->chat_id = $chat->id;
+        $message->save();
+
+        //broadcast(new MessageSent($message))->toOthers();
+        $message->load('user:id,name,user_id,avatar');
+        //event(new MessageSent($message));
+        broadcast(new MessageSent($message))->toOthers();
+ 
+        return back();
     }
 
     /**

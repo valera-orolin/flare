@@ -4,15 +4,18 @@ import Message from './Partials/Message.vue';
 import MessageForm from './Partials/MessageForm.vue';
 import BackButton from '@/Components/BackButton.vue';
 import Pagination from '@/Components/Pagination.vue';
-import { onMounted} from 'vue';
+import { onMounted, ref } from 'vue';
 
-const props = defineProps(['messages']);
+const props = defineProps(['messages', 'chat']);
+
+let messages = ref(props.messages);
 
 onMounted(() => {
-    Echo.join(`chat.1`)
-        .listen('MessageSent', (e) => {
-            console.log(e.message.message);
-        });
+    var channel = window.Echo.channel(`chat.${props.chat.id}`);
+    channel.listen('.message-sent', function(data) {
+        console.log(data.message.content);
+        messages.value.data.push(data.message);
+    });
 });
 </script>
  
@@ -28,7 +31,7 @@ onMounted(() => {
 
             <Pagination :items="messages" />
 
-            <MessageForm />
+            <MessageForm :chat="chat" />
         </div>
     </AuthenticatedLayout>
 </template>

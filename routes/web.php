@@ -57,6 +57,11 @@ Route::resource('chats', ChatController::class)
 Route::get('/messages/{user}', [MessageController::class, 'index'])
     ->name('messages.index')
     ->middleware(['auth', 'verified']);
+
+Route::post('/messages/{chat}', [MessageController::class, 'store'])
+    ->name('messages.store')
+    ->middleware(['auth', 'verified']);
+
 /*
 Route::resource('messages', MessageController::class)
     ->only(['index', 'store'])

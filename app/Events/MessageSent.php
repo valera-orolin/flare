@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MessageSent
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,8 +32,11 @@ class MessageSent
      */
     public function broadcastOn(): array
     {
-        return [
-            new PresenceChannel('chat.' . $this->message->chat_id),
-        ];
+        return ['chat.' . $this->message->chat_id];
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'message-sent';
     }
 }
