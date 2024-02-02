@@ -17,18 +17,20 @@ const props = defineProps(['chat']);
             <img v-else class="w-12 h-12 rounded-full object-cover object-center" src="/storage/images/default-avatar.jpeg" alt="Default Avatar">
             <div class="flex flex-col w-full">
                 <div class="flex items-center justify-between space-x-1">
-                    <a href="chat.html" class="text-base flex flex-col space-x-1 group md:flex-row">
+                    <Link :href="route('profile.show', chat.interlocutor.id)" class="text-base flex flex-col space-x-1 group md:flex-row">
                         <div class="font-bold max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap lg:group-hover:underline">{{ chat.interlocutor.name }}</div>
                         <div class="text-gray-500 hidden md:block">&#x2022;</div>
                         <div class="text-gray-500 max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap hidden md:block">{{ chat.interlocutor.user_id }}</div>
-                    </a>
-                    <div class="text-base text-gray-500">{{ dayjs(chat.last_message.created_at).fromNow() }}</div>
+                    </Link>
+                    <div class="text-base text-gray-500">{{ chat.last_message ? dayjs(chat.last_message.created_at).fromNow() : '' }}</div>
                 </div>
                 <div class="flex items-center justify-between space-x-1">
                     <a href="message.html">
-                        <div class="text-base text-gray-500 max-w-[200px] overflow-ellipsis line-clamp-1 md:max-w-[300px] lg:max-w-[400px]">{{ chat.last_message.content }}</div>
+                        <div class="text-base text-gray-500 max-w-[200px] overflow-ellipsis line-clamp-1 md:max-w-[300px] lg:max-w-[400px]">{{ chat.last_message ? chat.last_message.content : '' }}</div>
                     </a>
+                    <!--
                     <div class="bg-gray-500 text-white text-xs rounded-full py-1 px-2">13</div>
+                    -->
                 </div>
             </div>
         </Link>

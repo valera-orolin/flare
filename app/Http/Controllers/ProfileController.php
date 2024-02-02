@@ -24,9 +24,9 @@ class ProfileController extends Controller
         foreach ($posts as $post) {
             $post->increment('views_count');
             $post->isLikedByUser = $post->isLikedByUser();
+            $post->user->isFollowedByUser = $post->user->isFollowedByUser();
         }
 
-        $user->isFollowedByUser = $user->isFollowedByUser();
         $user->followersCount = $user->followers()->count();
         $user->followeesCount = $user->followees()->count();
 

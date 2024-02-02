@@ -18,7 +18,11 @@ class ChatController extends Controller
         foreach ($chats as $chat) {
             $interlocutor = $chat->user(1)->getResults()->id == $request->user()->id ? $chat->user(2)->getResults() : $chat->user(1)->getResults();
             $chat->interlocutor = $interlocutor->only(['name', 'user_id', 'id', 'avatar']);
-            $chat->last_message = $chat->messages()->latest()->first()->only(['content', 'created_at']);
+            
+            $last_message = $chat->messages()->latest()->first();
+            if ($last_message) {
+                $chat->last_message = $last_message->only(['content', 'created_at']);
+            }
         }
 
         return Inertia::render('Chats/Index', [

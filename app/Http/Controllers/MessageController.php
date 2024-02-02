@@ -24,13 +24,14 @@ class MessageController extends Controller
             return $chat->user1_id == $interlocutor->id || $chat->user2_id == $interlocutor->id;
         });
 
-        $messages = $chat->messages()->with('user:id,name')->paginate(15);
-
-        /*
-        foreach ($messages as $message) {
-            broadcast(new MessageSent($message));
+        if (!$chat) {
+            $chat = Chat::create([
+                'user1_id' => $request->user()->id,
+                'user2_id' => $interlocutor->id,
+            ]);
         }
-        */
+
+        $messages = $chat->messages()->with('user:id,name')->get();
 
         return Inertia::render('Chats/Show', [
             'messages' => $messages,
@@ -60,13 +61,11 @@ class MessageController extends Controller
         $message->user_id = $request->user()->id;
         $message->chat_id = $chat->id;
         $message->save();
-
-        //broadcast(new MessageSent($message))->toOthers();
+;
         $message->load('user:id,name,user_id,avatar');
-        //event(new MessageSent($message));
         broadcast(new MessageSent($message))->toOthers();
  
-        return back();
+        return response()->json($message);
     }
 
     /**

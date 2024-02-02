@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Создание чатов
+        /*
         $chat1 = DB::table('chats')->insertGetId([
             'user1_id' => $user1,
             'user2_id' => $user2,
@@ -168,5 +169,6 @@ class DatabaseSeeder extends Seeder
                 'chat_id' => $chat2,
             ],
         ]);
+        */
     }
 }

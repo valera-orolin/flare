@@ -34,6 +34,12 @@ const followUser = async (event) => {
                         <div class="text-xl text-gray-500 font-bold">{{ user.user_id }}</div>
                     </div>
                     <div v-show="!isCurrentUsersPage" class="flex space-x-2">
+                        <Link :href="route('messages.index', user.id)">
+                            <button type="submit"
+                                class="text-xs transition-all duration-20 font-bold py-2 px-4 rounded-full lg:hover:bg-gray-300">
+                                Send Message
+                            </button>
+                        </Link>
                         <form>
                             <button type="submit"
                                 class="text-xs transition-all duration-20 font-bold py-2 px-4 rounded-full lg:hover:bg-gray-300">
