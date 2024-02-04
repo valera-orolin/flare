@@ -11,7 +11,12 @@ use Illuminate\Http\Request;
 class FollowController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a paginated listing of the friends for the authenticated user.
+     *
+     * Each friend includes a flag indicating whether the friend is followed by the authenticated user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
      */
     public function friends(Request $request): Response
     {
@@ -26,6 +31,14 @@ class FollowController extends Controller
         ]);
     }
 
+    /**
+     * Display a paginated listing of the followers for the given user.
+     *
+     * Each follower includes a flag indicating whether the follower is followed by the authenticated user.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Inertia\Response
+     */
     public function followers(User $user): Response
     {
         $followers = $user->followers()->paginate(15);
@@ -39,6 +52,14 @@ class FollowController extends Controller
         ]);
     }
 
+    /**
+     * Display a paginated listing of the followees for the given user.
+     *
+     * Each followee includes a flag indicating whether the followee is followed by the authenticated user.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Inertia\Response
+     */
     public function followees(User $user): Response
     {
         $followees = $user->followees()->paginate(15);
@@ -53,17 +74,15 @@ class FollowController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created follow in storage or delete an existing one.
+     *
+     * The follow is associated with the authenticated user as the follower and the user with the given id as the followee.
+     * If a follow already exists, it is deleted. If the follower and the followee are the same user, a 409 response is returned.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\Response
     {
         $follower = $request->user();
         $followee = User::find($request->input('followee_id'));
@@ -84,37 +103,5 @@ class FollowController extends Controller
         }
 
         return response('', 200);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Follow $follow)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Follow $follow)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Follow $follow)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Follow $follow)
-    {
-        //
     }
 }

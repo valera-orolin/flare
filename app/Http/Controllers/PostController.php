@@ -6,13 +6,21 @@ use App\Models\Post;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a paginated listing of the posts.
+     *
+     * Each post includes the user's details (id, name, user_id, avatar), the count of likes and comments,
+     * a flag indicating whether the post is liked by the authenticated user,
+     * and a flag indicating whether the user is followed by the authenticated user.
+     * The views count of each post is incremented.
+     *
+     * @return \Inertia\Response
      */
     public function index(): Response 
     {
@@ -30,17 +38,17 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created post in storage.
+     *
+     * The post is associated with the authenticated user.
+     * The message, image, and visibility of the post are validated before storing.
+     * If an image is uploaded, it is stored and its path is included in the post.
+     * After storing, the post is loaded with the user's details (id, name, user_id, avatar).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'message' => 'required|string|max:255',
@@ -61,25 +69,18 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Update the specified post in storage.
+     *
+     * The post is updated if the authenticated user is authorized to update it.
+     * The message, image, and visibility of the post are validated before updating.
+     * If an image is uploaded, the old image is deleted, the new image is stored, and its path is included in the post.
+     * After updating, the post is loaded with the user's details (id, name, user_id, avatar).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): JsonResponse
     {
         $this->authorize('update', $post);
  
@@ -103,9 +104,15 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified post from storage.
+     *
+     * The post is deleted if the authenticated user is authorized to delete it.
+     * If the post has an image, it is deleted.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): JsonResponse
     {
         $this->authorize('delete', $post);
  

@@ -4,32 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use App\Models\Post;
-use Inertia\Inertia;
-use Inertia\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LikeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Store a newly created like in storage or delete an existing one.
+     *
+     * The like is associated with the authenticated user and the post with the given id.
+     * If a like already exists, it is deleted. If the post does not exist, a 404 response is returned.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $post = Post::find($request->input('post_id'));
         if (!$post) {
@@ -50,37 +39,5 @@ class LikeController extends Controller
         }
 
         return response('', 200);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Like $like)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Like $like)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Like $like)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Like $like)
-    {
-        //
     }
 }

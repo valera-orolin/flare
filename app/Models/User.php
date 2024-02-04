@@ -49,42 +49,82 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Get the posts made by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * Get the likes made by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
     }
 
+    /**
+     * Get the comments made by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Get the users followed by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function followees(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followee_id');
     }
 
+    /**
+     * Get the followers of the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follows', 'followee_id', 'follower_id');
     }
 
+    /**
+     * Get the friends of the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function friends(): BelongsToMany
     {
         $following = $this->followees()->pluck('users.id');
         return $this->followers()->whereIn('users.id', $following);
     }
 
+    /**
+     * Check if the user is followed by the authenticated user.
+     *
+     * @return bool
+     */
     public function isFollowedByUser()
     {
         return $this->followers()->where('follower_id', auth()->id())->exists();
     }
 
+    /**
+     * Get the chats of the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function chats(): HasMany
     {
         $chats1 = $this->hasMany(Chat::class, 'user1_id');
@@ -93,14 +133,26 @@ class User extends Authenticatable
         return $chats1->union($chats2);
     }
 
+    /**
+     * Get the messages sent by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
+    /**
+     * Check if the user is in the chat with the given id.
+     *
+     * @param  int  $chatId
+     * @return bool
+     */
     public function isInChat($chatId): bool 
     {
         $chat = Chat::find($chatId);
         return $chat && ($this->id == $chat->user1_id || $this->id == $chat->user2_id);
     }
 }
+

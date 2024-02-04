@@ -19,6 +19,8 @@ class MessageSent implements ShouldBroadcast
 
     /**
      * Create a new event instance.
+     * 
+     * @param  \App\Models\Message  $message
      */
     public function __construct(Message $message)
     {
@@ -35,6 +37,11 @@ class MessageSent implements ShouldBroadcast
         return ['chat.' . $this->message->chat_id];
     }
 
+    /**
+     * Get the name of the event to broadcast.
+     *
+     * @return string
+     */
     public function broadcastAs(): string
     {
         return 'message-sent';

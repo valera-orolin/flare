@@ -7,11 +7,19 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a paginated listing of the comments for the given post.
+     *
+     * Each comment includes the user's details (id, name, user_id, avatar).
+     * The post is loaded with the user's details and the count of likes and comments.
+     * It also includes a flag indicating whether the post is liked by the authenticated user.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Inertia\Response
      */
     public function index(Post $post): Response 
     {
@@ -27,17 +35,16 @@ class CommentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created comment in storage.
+     *
+     * The comment is associated with the given post and the authenticated user.
+     * The message of the comment is validated before storing.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, Post $post)
+    public function store(Request $request, Post $post): RedirectResponse
     {
         $validated = $request->validate([
             'message' => 'required|string|max:255',
@@ -50,37 +57,5 @@ class CommentController extends Controller
         $comment->save();
  
         return back();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Comment $comment)
-    {
-        //
     }
 }

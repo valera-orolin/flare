@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Chat;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ChatController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a paginated listing of the chats for the authenticated user.
+     *
+     * For each chat, it includes the interlocutor's details (name, user_id, id, avatar)
+     * and the content and creation time of the last message if it exists.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $chats = $request->user()->chats()->paginate(15);
 
@@ -28,53 +35,5 @@ class ChatController extends Controller
         return Inertia::render('Chats/Index', [
             'chats' => $chats
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Chat $chat)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Chat $chat)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Chat $chat)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Chat $chat)
-    {
-        //
     }
 }

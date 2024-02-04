@@ -12,27 +12,52 @@ class Post extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'message',
         'image',
         'visibility',
     ];
 
+    /**
+     * Get the user who made the post.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the likes associated with the post.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
     }
 
+    /**
+     * Check if the post is liked by the authenticated user.
+     *
+     * @return bool
+     */
     public function isLikedByUser()
     {
         return $this->likes()->where('user_id', auth()->id())->exists();
     }
 
+    /**
+     * Get the comments associated with the post.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

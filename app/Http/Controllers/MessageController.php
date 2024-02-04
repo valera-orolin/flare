@@ -5,16 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Chat;
 use App\Models\User;
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class MessageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the messages for the chat between the authenticated user and the given user.
+     *
+     * If a chat does not exist, it is created. The messages are loaded with the user's details (id, name).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Inertia\Response
      */
-    public function index(Request $request, User $user)
+    public function index(Request $request, User $user): Response
     {
         $interlocutor = $user;
 
@@ -40,17 +48,17 @@ class MessageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created message in storage.
+     *
+     * The message is associated with the authenticated user and the given chat.
+     * The content of the message is validated before storing.
+     * After storing, the message is loaded with the user's details (id, name, user_id, avatar) and broadcasted.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Chat  $chat
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, Chat $chat)
+    public function store(Request $request, Chat $chat): JsonResponse
     {
         $validated = $request->validate([
             'content' => 'required|string|max:1000',
@@ -66,37 +74,5 @@ class MessageController extends Controller
         broadcast(new MessageSent($message))->toOthers();
  
         return response()->json($message);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Message $message)
-    {
-        //
     }
 }

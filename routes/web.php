@@ -62,12 +62,6 @@ Route::post('/messages/{chat}', [MessageController::class, 'store'])
     ->name('messages.store')
     ->middleware(['auth', 'verified']);
 
-/*
-Route::resource('messages', MessageController::class)
-    ->only(['index', 'store'])
-    ->middleware(['auth', 'verified']);
-*/
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
