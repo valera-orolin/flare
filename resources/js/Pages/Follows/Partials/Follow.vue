@@ -1,12 +1,10 @@
 <script setup>
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3'
 
 const props = defineProps(['user']);
 
 const followed = ref(props.user.isFollowedByUser);
-console.log(props.user);
 const followUser = async (event) => {
     event.preventDefault();
     const response = await axios.post(route('follows.store', { followee_id: props.user.id }));

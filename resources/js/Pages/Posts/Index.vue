@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Post from './Partials/Post.vue';
 import PostForm from './Partials/PostForm.vue';
+import SearchForm from './Partials/SearchForm.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { ref } from 'vue';
  
@@ -36,6 +37,8 @@ const destroyPost = (destroyedPostId) => {
         <div class="my-4 space-y-4">
 
             <PostForm @post-created="addNewPost"/>
+
+            <SearchForm />
 
             <Post
                 @post-updated="updatePost"

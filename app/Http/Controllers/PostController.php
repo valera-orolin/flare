@@ -22,15 +22,20 @@ class PostController extends Controller
      *
      * @return \Inertia\Response
      */
-    public function index(): Response 
+    public function index(Request $request): Response 
     {
-        $posts = Post::with('user:id,name,user_id,avatar')->withCount('likes')->withCount('comments')->latest()->paginate(15);
+        $search = $request->input('search');
 
-        foreach ($posts as $post) {
+        /** @var \Illuminate\Database\Eloquent\Collection|Post[] $posts */
+        $posts = Post::search($search)->orderBy('id', 'desc')->paginate(15);
+
+        $posts->each(function ($post) {
+            $post->load('user:id,name,user_id,avatar');
+            $post->loadCount(['likes', 'comments']);
             $post->increment('views_count');
             $post->isLikedByUser = $post->isLikedByUser();
             $post->user->isFollowedByUser = $post->user->isFollowedByUser();
-        }
+        });
 
         return Inertia::render('Posts/Index', [
             'posts' => $posts,

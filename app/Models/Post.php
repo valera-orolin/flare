@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use JeroenG\Explorer\Application\Explored;
+use Laravel\Scout\Searchable;
 
-class Post extends Model
+class Post extends Model implements Explored
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -61,5 +63,19 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'message' => $this->message,
+        ];
+    }
+
+    public function mappableAs(): array
+    {
+        return [
+            'message' => 'text',
+        ];
     }
 }

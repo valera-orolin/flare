@@ -1,33 +1,30 @@
 <script setup>
-import { Inertia } from '@inertiajs/inertia'
 import { ref } from 'vue';
 
 const currentPage = ref('');
 
-Inertia.on('navigate', (event) => {
-    const currentRouteName = route().current();
+const currentRouteName = route().current();
 
-    if (currentRouteName.startsWith('profile.show')) {
-        currentPage.value = "Profile";
-    } else if (currentRouteName == 'posts.index') {
-        currentPage.value = 'Feeds';
-    } else if (currentRouteName.startsWith('posts.comments')) {
-        currentPage.value = 'Comments';
-    } else if (currentRouteName.startsWith('chats.index') || 
-        currentRouteName.startsWith('messages.index')) {
-        currentPage.value = 'Messages';
-    } else if (currentRouteName.startsWith('follows.followers')) {
-        currentPage.value = 'Followers';
-    } else if (currentRouteName.startsWith('follows.followees')) {
-        currentPage.value = 'Following';
-    } else if (currentRouteName == 'follows.friends') {
-        currentPage.value = 'Friends';
-    } else if (currentRouteName == 'profile.edit') {
-        currentPage.value = 'Settings';
-    } else {
-        currentPage.value = "x";
-    }
-});
+if (currentRouteName.startsWith('profile.show')) {
+    currentPage.value = "Profile";
+} else if (currentRouteName == 'posts.index') {
+    currentPage.value = 'Feeds';
+} else if (currentRouteName.startsWith('posts.comments')) {
+    currentPage.value = 'Comments';
+} else if (currentRouteName.startsWith('chats.index') || 
+    currentRouteName.startsWith('messages.index')) {
+    currentPage.value = 'Messages';
+} else if (currentRouteName.startsWith('follows.followers')) {
+    currentPage.value = 'Followers';
+} else if (currentRouteName.startsWith('follows.followees')) {
+    currentPage.value = 'Following';
+} else if (currentRouteName == 'follows.friends') {
+    currentPage.value = 'Friends';
+} else if (currentRouteName == 'profile.edit') {
+    currentPage.value = 'Settings';
+} else {
+    currentPage.value = "x";
+}
 </script>
 
 <template>
