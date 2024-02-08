@@ -104,4 +104,11 @@ class FollowController extends Controller
 
         return response('', 200);
     }
+
+    public function suggestedUsers()
+    {
+        $users = User::limit(3)->get();
+
+        return response()->json($users);
+    }
 }

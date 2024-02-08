@@ -4,7 +4,7 @@ import Suggestions from '@/Components/Suggestions.vue';
 import HamburgerButton from '@/Components/HamburgerButton.vue';
 import ResponsiveNavPanel from '@/Components/ResponsiveNavPanel.vue';
 import PageHeader from '@/Components/PageHeader.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
 const isOpen = ref(false);
@@ -12,6 +12,13 @@ const isOpen = ref(false);
 const updateIsOpen = (value) => {
     isOpen.value = value;
 };
+
+const users = ref([]);
+
+onMounted(async () => {
+    const response = await axios.get('/api/suggested-users');
+    users.value = response.data;
+});
 </script>
 
 <template>
@@ -47,7 +54,7 @@ const updateIsOpen = (value) => {
                 
             </div>
 
-            <Suggestions />
+            <Suggestions :users="users" />
         </div>
     </div>
 

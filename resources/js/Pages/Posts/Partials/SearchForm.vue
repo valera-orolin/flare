@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { Link } from '@inertiajs/vue3';
 
 let search = ref('');
 
@@ -20,6 +21,10 @@ onMounted(() => {
                     class="text-xl text-black py-2 px-4 transition-all duration-200 hover:text-gray-500"
                     type="submit"><font-awesome-icon :icon="['fas', 'magnifying-glass']" />
                 </button>
+                <Link :href="route('posts.index')"
+                    class="text-2xl text-black py-2 px-4 transition-all duration-200 hover:text-gray-500"
+                    type="submit"><font-awesome-icon :icon="['fas', 'xmark']" />
+                </Link>
             </form>
         </div>
     </div>

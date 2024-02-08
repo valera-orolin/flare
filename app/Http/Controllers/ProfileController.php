@@ -35,6 +35,7 @@ class ProfileController extends Controller
 
         $user->followersCount = $user->followers()->count();
         $user->followeesCount = $user->followees()->count();
+        $user->isFollowedByUser = $user->isFollowedByUser();
 
         return Inertia::render('Profile/Show', [
             'user' => $user,
