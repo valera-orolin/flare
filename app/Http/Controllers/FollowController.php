@@ -7,13 +7,12 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Follow;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class FollowController extends Controller
 {
     /**
      * Display a paginated listing of the friends for the authenticated user.
-     *
-     * Each friend includes a flag indicating whether the friend is followed by the authenticated user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
@@ -34,8 +33,6 @@ class FollowController extends Controller
     /**
      * Display a paginated listing of the followers for the given user.
      *
-     * Each follower includes a flag indicating whether the follower is followed by the authenticated user.
-     *
      * @param  \App\Models\User  $user
      * @return \Inertia\Response
      */
@@ -55,8 +52,6 @@ class FollowController extends Controller
     /**
      * Display a paginated listing of the followees for the given user.
      *
-     * Each followee includes a flag indicating whether the followee is followed by the authenticated user.
-     *
      * @param  \App\Models\User  $user
      * @return \Inertia\Response
      */
@@ -75,9 +70,6 @@ class FollowController extends Controller
 
     /**
      * Store a newly created follow in storage or delete an existing one.
-     *
-     * The follow is associated with the authenticated user as the follower and the user with the given id as the followee.
-     * If a follow already exists, it is deleted. If the follower and the followee are the same user, a 409 response is returned.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -105,7 +97,12 @@ class FollowController extends Controller
         return response('', 200);
     }
 
-    public function suggestedUsers()
+    /**
+     * Fetch a list of suggested users.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function suggestedUsers(): JsonResponse
     {
         $users = User::limit(3)->get();
 

@@ -65,6 +65,11 @@ class Post extends Model implements Explored
         return $this->hasMany(Comment::class);
     }
 
+    /**
+     * Convert the model instance to an array that can be used by Elasticsearch.
+     *
+     * @return array
+     */
     public function toSearchableArray(): array
     {
         return [
@@ -72,6 +77,11 @@ class Post extends Model implements Explored
         ];
     }
 
+    /**
+     * Define the fields of the model that can be mapped to Elasticsearch types.
+     *
+     * @return array
+     */
     public function mappableAs(): array
     {
         return [

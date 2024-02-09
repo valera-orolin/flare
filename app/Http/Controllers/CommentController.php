@@ -12,11 +12,7 @@ use Illuminate\Http\RedirectResponse;
 class CommentController extends Controller
 {
     /**
-     * Display a paginated listing of the comments for the given post.
-     *
-     * Each comment includes the user's details (id, name, user_id, avatar).
-     * The post is loaded with the user's details and the count of likes and comments.
-     * It also includes a flag indicating whether the post is liked by the authenticated user.
+     * Display paginated comments for the given post.
      *
      * @param  \App\Models\Post  $post
      * @return \Inertia\Response
@@ -35,10 +31,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Store a newly created comment in storage.
-     *
-     * The comment is associated with the given post and the authenticated user.
-     * The message of the comment is validated before storing.
+     * Store a new comment associated with the given post and user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Post  $post

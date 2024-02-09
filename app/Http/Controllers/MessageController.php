@@ -16,8 +16,6 @@ class MessageController extends Controller
     /**
      * Display a listing of the messages for the chat between the authenticated user and the given user.
      *
-     * If a chat does not exist, it is created. The messages are loaded with the user's details (id, name).
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
      * @return \Inertia\Response
@@ -49,10 +47,6 @@ class MessageController extends Controller
 
     /**
      * Store a newly created message in storage.
-     *
-     * The message is associated with the authenticated user and the given chat.
-     * The content of the message is validated before storing.
-     * After storing, the message is loaded with the user's details (id, name, user_id, avatar) and broadcasted.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Chat  $chat

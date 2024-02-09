@@ -10,10 +10,7 @@ use Inertia\Response;
 class ChatController extends Controller
 {
     /**
-     * Display a paginated listing of the chats for the authenticated user.
-     *
-     * For each chat, it includes the interlocutor's details (name, user_id, id, avatar)
-     * and the content and creation time of the last message if it exists.
+     * Display paginated chats for the authenticated user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response

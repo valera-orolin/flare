@@ -12,9 +12,6 @@ class LikeController extends Controller
     /**
      * Store a newly created like in storage or delete an existing one.
      *
-     * The like is associated with the authenticated user and the post with the given id.
-     * If a like already exists, it is deleted. If the post does not exist, a 404 response is returned.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

@@ -15,11 +15,7 @@ class PostController extends Controller
     /**
      * Display a paginated listing of the posts.
      *
-     * Each post includes the user's details (id, name, user_id, avatar), the count of likes and comments,
-     * a flag indicating whether the post is liked by the authenticated user,
-     * and a flag indicating whether the user is followed by the authenticated user.
-     * The views count of each post is incremented.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
     public function index(Request $request): Response 
@@ -44,11 +40,6 @@ class PostController extends Controller
 
     /**
      * Store a newly created post in storage.
-     *
-     * The post is associated with the authenticated user.
-     * The message, image, and visibility of the post are validated before storing.
-     * If an image is uploaded, it is stored and its path is included in the post.
-     * After storing, the post is loaded with the user's details (id, name, user_id, avatar).
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -75,11 +66,6 @@ class PostController extends Controller
 
     /**
      * Update the specified post in storage.
-     *
-     * The post is updated if the authenticated user is authorized to update it.
-     * The message, image, and visibility of the post are validated before updating.
-     * If an image is uploaded, the old image is deleted, the new image is stored, and its path is included in the post.
-     * After updating, the post is loaded with the user's details (id, name, user_id, avatar).
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Post  $post
@@ -110,9 +96,6 @@ class PostController extends Controller
 
     /**
      * Remove the specified post from storage.
-     *
-     * The post is deleted if the authenticated user is authorized to delete it.
-     * If the post has an image, it is deleted.
      *
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\JsonResponse
