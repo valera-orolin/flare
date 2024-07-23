@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -18,12 +19,16 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
-    public function index(Request $request): Response 
+    public function index(Request $request): Response
     {
         $search = $request->input('search');
 
-        /** @var \Illuminate\Database\Eloquent\Collection|Post[] $posts */
-        $posts = Post::search($search)->orderBy('id', 'desc')->paginate(15);
+        if (empty($search)) {
+            $posts = Post::orderBy('created_at', 'desc')->paginate(15);
+        } else {
+            /** @var \Illuminate\Database\Eloquent\Collection|Post[] $posts */
+            $posts = Post::search($search)->orderBy('created_at')->paginate(15);
+        }
 
         $posts->each(function ($post) {
             $post->load('user:id,name,user_id,avatar');
@@ -51,16 +56,16 @@ class PostController extends Controller
             'image' => 'nullable|image',
             'visibility' => 'required|in:public,only_friends',
         ]);
-    
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images', 'public');
             $validated['image'] = '/storage/' . $path;
         }
- 
+
         $post = $request->user()->posts()->create($validated);
 
         $post->load('user:id,name,user_id,avatar');
- 
+
         return response()->json($post);
     }
 
@@ -74,7 +79,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post): JsonResponse
     {
         $this->authorize('update', $post);
- 
+
         $validated = $request->validate([
             'message' => 'required|string|max:255',
             'image' => 'nullable|image',
@@ -86,11 +91,11 @@ class PostController extends Controller
             $path = $request->file('image')->store('images', 'public');
             $validated['image'] = '/storage/' . $path;
         }
- 
+
         $post->update($validated);
 
         $post->load('user:id,name,user_id,avatar');
- 
+
         return response()->json($post);
     }
 
@@ -103,14 +108,14 @@ class PostController extends Controller
     public function destroy(Post $post): JsonResponse
     {
         $this->authorize('delete', $post);
- 
+
         if ($post->image) {
             Storage::disk('public')->delete(str_replace('/storage/', '', $post->image));
         }
 
         $postid = $post->id;
         $post->delete();
- 
+
         return response()->json($postid);
     }
 }

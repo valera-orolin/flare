@@ -4,8 +4,9 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, Link } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
 
 const confirmingUserDeletion = ref(false);
@@ -49,6 +50,10 @@ const closeModal = () => {
         </header>
 
         <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+
+        <Link :href="route('logout')" method="post" as="button" class="ml-10">
+            <PrimaryButton>Sign out</PrimaryButton>
+        </Link>
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">

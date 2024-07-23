@@ -9,7 +9,9 @@ const user = usePage().props.auth.user;
     <div class="font-medium hidden lg:col-span-1 lg:block">
         <div class="sticky top-0 pt-8">
             <div class="flex flex-col items-start">
-                <a href="index.html" class="text-3xl font-bold px-5 mb-4">Flare</a>
+                <Link :href="route('posts.index')" class="text-3xl font-bold px-5 mb-4">
+                    Flare
+                </Link>
                 <Link :href="route('profile.show', user.id)" class="nav-link">
                     <div class="w-6">
                         <font-awesome-icon :icon="['fas', 'user']" />

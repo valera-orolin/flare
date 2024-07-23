@@ -5,7 +5,7 @@ import HamburgerButton from '@/Components/HamburgerButton.vue';
 import ResponsiveNavPanel from '@/Components/ResponsiveNavPanel.vue';
 import PageHeader from '@/Components/PageHeader.vue';
 import { ref, onMounted } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import {Head, Link} from '@inertiajs/vue3';
 
 const isOpen = ref(false);
 
@@ -38,7 +38,9 @@ onMounted(async () => {
                 <!-- Sticky top -->
                 <div class="sticky top-0 bg-white pt-4 pb-2 z-20 lg:pt-8">
                     <div class="flex items-center mb-4 lg:hidden">
-                        <a href="#" class="text-3xl font-bold absolute left-1/2 transform -translate-x-1/2">Flare</a>
+                        <Link :href="route('posts.index')" class="text-3xl font-bold absolute left-1/2 transform -translate-x-1/2">
+                            Flare
+                        </Link>
 
                         <HamburgerButton @update:isOpen="updateIsOpen"/>
                     </div>
@@ -51,7 +53,7 @@ onMounted(async () => {
                 <main>
                     <slot />
                 </main>
-                
+
             </div>
 
             <Suggestions :users="users" />
